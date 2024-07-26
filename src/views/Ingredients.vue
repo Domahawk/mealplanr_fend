@@ -5,6 +5,7 @@ import {ingredientsClient} from "@/network/endpoints/ingredientsClient.ts";
 import {TableIngredient} from "@/types/model/ingredient.ts";
 import Table from "@/components/RedirectTable.vue";
 import Pagination from "@/components/Pagination.vue";
+import {Model} from "@/types/model/model.ts";
 
 const tableIngredients: Ref<TableIngredient[]> = ref([]);
 
@@ -25,7 +26,7 @@ onMounted(getIngredients);
            redirect-link="/ingredients/"
     />
   </section>
-  <Pagination :client="ingredientsClient" @update-data="(ingredients: TableIngredient[]) => tableIngredients = ingredients"/>
+  <Pagination :client="ingredientsClient" @update-data="(ingredients: Model[]) => tableIngredients = ingredients as TableIngredient[]" />
 </template>
 
 <style scoped>

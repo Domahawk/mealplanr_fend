@@ -13,8 +13,8 @@ const props = withDefaults(defineProps<{
   title: 'List',
   titleTwo: 'List',
   redirectLink: '',
-  tableData: [],
-  tableHeaders: [],
+  tableData: () => [],
+  tableHeaders: () => [],
 });
 
 const rowCLickClass = computed(() => {

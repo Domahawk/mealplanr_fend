@@ -5,7 +5,7 @@ const emit = defineEmits<{
   (e: 'textData', value: string): void
 }>();
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   label: string;
 }>(), {
   label: "Data",

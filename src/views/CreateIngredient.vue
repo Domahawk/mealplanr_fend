@@ -39,8 +39,8 @@ const createIngredient = async () => {
         <TextInputField label="Ingredient name" @text-data="(value) => ingredientName = value"/>
       </div>
       <NumberInputField label="Calories per 100g" :start-data="calories" @data-update="updateCalories"/>
-      <SubmitButton :isDisabled="isDisabled" @submit="createIngredient"/>
     </form>
+    <SubmitButton :isDisabled="isDisabled" @submit="createIngredient"/>
   </section>
 </template>
 

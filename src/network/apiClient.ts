@@ -3,7 +3,7 @@ import {useAuthStore} from "@/store/auth.ts";
 import vueRouter from "@/router/router.ts";
 
 const axiosClient: AxiosInstance = axios.create({
-    baseURL: `http://localhost:8000/api`,
+    baseURL: import.meta.env.VITE_API_URL,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

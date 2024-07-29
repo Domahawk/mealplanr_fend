@@ -4,15 +4,13 @@ import Navigation from "./components/Navigation.vue";
 </script>
 
 <template>
-  <Navigation/>
-
   <main>
-    <section class="container">
-        <router-view/>
+    <section class="main-app-section">
+      <router-view/>
+      <Footer/>
     </section>
   </main>
 
-  <Footer/>
 </template>
 
 <style scoped>

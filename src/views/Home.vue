@@ -66,5 +66,7 @@ onMounted(getMealPlans);
   justify-content: center;
   margin: 5px;
   padding: 5px;
+  width: 100%;
+  max-width: 800px;
 }
 </style>

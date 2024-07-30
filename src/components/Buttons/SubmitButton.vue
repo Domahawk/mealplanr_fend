@@ -40,6 +40,8 @@ const disabledButton = computed(() => {
   background: var(--safe-color);
   align-self: end;
   margin: 20px;
+  padding: 10px;
+  border-radius: 12px;
 }
 
 .disabled-button {

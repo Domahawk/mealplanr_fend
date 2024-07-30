@@ -36,6 +36,11 @@ p {
   padding: 0;
 }
 
+button {
+  outline: none;
+  border: none;
+}
+
 .main-app-section {
   display: flex;
   align-items: center;

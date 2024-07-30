@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
-import {Model} from "@/types/model/model.ts";
-import {Meal} from "@/types/model/meal.ts";
 import {calculateCalories, formatDate, getDayOfWeek} from "@/mixins/mixins.ts";
 import {computed, onMounted, ref, Ref} from "vue";
 import {useMealPlansStore} from "@/store/mealPlan.ts";
+import {Model} from "@/types/model/model.ts";
 import {MealPlans} from "@/types/mealPlans.ts";
+import {MealPlan} from "@/types/model/mealPlan.ts";
+import {Meal} from "@/types/model/meal.ts";
 import SearchSelect from "@/components/FormFields/SearchSelect.vue";
 import RemoveButton from "@/components/Buttons/RemoveButton.vue";
 import SubmitButton from "@/components/Buttons/SubmitButton.vue";
@@ -57,6 +58,22 @@ const submitData = async (): Promise<void> => {
   emit('close');
 }
 
+const calculateTotalCalories = (): number => {
+  let calories: number = props.mealPlans.meals.reduce(
+      (value: number, mealPlan: MealPlan) => {
+        return calculateCalories(mealPlan.meal) + value
+      },
+      0
+  );
+
+  return addedMeals.value.reduce(
+      (value: number, meal: Meal) => {
+        return calculateCalories(meal) + value
+      },
+      calories
+  );
+}
+
 onMounted(getSelectOptions);
 </script>
 
@@ -76,7 +93,7 @@ onMounted(getSelectOptions);
             title="Select a meal"
             placeholder="Search for a meal..."
         />
-        <strong>Total Calories: 1000</strong>
+        <strong> {{ calculateTotalCalories() }} </strong>
         <ul class="add-meal-modal__form__meal-list">
           <li class="add-meal-modal__form__meal-list__item" v-for="(meal, key) in addedMeals" :key="key">
             <p>{{ meal.name }} - {{ calculateCalories(meal) }} </p>
@@ -144,5 +161,6 @@ onMounted(getSelectOptions);
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 </style>

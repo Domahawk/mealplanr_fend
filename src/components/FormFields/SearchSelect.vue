@@ -45,6 +45,7 @@ function selectOption (option: Model): void {
             @click="toggleDropdown"
             @input="emit('search', searchQuery)"
             :placeholder="placeholder"
+            class="input-field"
         />
         <div v-if="isOpen" class="dropdown-menu">
           <div
@@ -66,7 +67,8 @@ function selectOption (option: Model): void {
   display: flex;
   flex-direction: column;
   flex: 1;
-  align-items: start;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .dropdown {
@@ -79,10 +81,10 @@ function selectOption (option: Model): void {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--container-bg);
-  border: 1px solid #ccc;
+  left: 15px;
+  right: 5px;
+  background: var(--background);
+  border-radius: 0 0 12px 12px;
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
@@ -97,7 +99,19 @@ function selectOption (option: Model): void {
   background: #f0f0f0;
 }
 
-button {
-  margin: 5px;
+.input-field {
+  background: var(--background);
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
+  color: #000000;
+  margin: 5px 5px 0 5px;
+  width: 100%;
+  height: 25px;
+  font-family: Comfortaa, sans-serif;
+}
+
+.input-field:focus {
+  outline: none;
 }
 </style>

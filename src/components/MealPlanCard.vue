@@ -3,12 +3,23 @@ import {calculateCalories, getDayOfWeek, formatDate} from "@/mixins/mixins.ts";
 import {MealPlan} from "@/types/model/mealPlan.ts";
 import {MealPlans} from "@/types/mealPlans.ts";
 import {mealPlanClient} from "@/network/endpoints/mealPlanClient.ts";
+import AddMealModal from "@/components/AddMealModal.vue";
+import RemoveButton from "@/components/Buttons/RemoveButton.vue";
+import {ref, Ref} from "vue";
+import MarkButton from "@/components/Buttons/MarkButton.vue";
+import AddButton from "@/components/Buttons/AddButton.vue";
 
 const props = withDefaults(defineProps<{
   mealPlans: MealPlans
 }>(), {
   mealPlans: () => <MealPlans>{}
 })
+
+const emits = defineEmits<{
+  (e: 'removeMealFromMealPlan', value: MealPlan): void
+}>()
+
+const isModalOpen: Ref<boolean> = ref(false);
 
 const calculateCurrentCalories = (): { eaten: number, planned: number, remaining: number } => {
   let eatenCalories = 0;
@@ -44,25 +55,13 @@ const markMealAsEaten = async (meal: MealPlan): Promise<void> => {
 }
 
 const removeMealFromPlan = async (meal: MealPlan): Promise<void> => {
-  if (currentlySelectedPlan.value === null) {
-    return;
-  }
-
   let response = await mealPlanClient.removeMealPlan(meal.mealPlanId);
 
   if (response.status !== 200) {
     return;
   }
 
-  let meals: MealPlan[] = [];
-
-  currentlySelectedPlan.value?.meals.forEach((currentMeal: MealPlan) => {
-    if (currentMeal.mealPlanId !== meal.mealPlanId) {
-      meals.push(currentMeal)
-    }
-  })
-
-  currentlySelectedPlan.value.meals = meals;
+  emits('removeMealFromMealPlan', meal);
 }
 
 const mealConsumedClass = (meal: MealPlan) => {
@@ -76,27 +75,38 @@ const mealConsumedClass = (meal: MealPlan) => {
 </script>
 
 <template>
+  <AddMealModal
+      v-if="isModalOpen"
+      :meal-plans="mealPlans"
+      @close="isModalOpen = false"
+  />
   <section class="meal-plan-card">
     <div class="meal-plan-card__header">
       <div class="meal-plan-card__header-day">
         <h2 class="zero-margin-padding">{{ getDayOfWeek(mealPlans?.date) }}</h2>
         <p class="zero-margin-padding">{{ formatDate(mealPlans?.date) }}</p>
       </div>
-      <button class="add-button">+</button>
+      <AddButton @addElement="isModalOpen = true" />
     </div>
+    <hr>
     <div class="meal-plan-card__body">
       <div class="meal-plan-card__body-info">
         <div v-for="(value, key) in calculateCurrentCalories()" :key="key" class="meal-plan-card__body-info__element">
-          <p class="zero-margin-padding">{{ key }}</p>
+          <p class="zero-margin-padding">{{ key.toUpperCase() }}</p>
           <p class="zero-margin-padding">{{ value }}</p>
         </div>
       </div>
+      <hr>
       <div class="meal-plan-card__body-meals">
         <div v-for="meal in mealPlans.meals" class="meal-plan-card__body-meals__meal">
-          <p class="zero-margin-padding"> {{ meal.meal.name }} </p>
-          <p class="zero-margin-padding">{{ calculateCalories(meal.meal) }}</p>
-          <button class="add-button">Mark</button>
-          <button class="remove-button">-</button>
+          <div class="info-container">
+            <p class="zero-margin-padding"> {{ meal.meal.name }} </p>
+            <p class="zero-margin-padding"> {{ calculateCalories(meal.meal) }} </p>
+          </div>
+          <div class="button-container">
+            <MarkButton />
+            <RemoveButton @remove-element="removeMealFromPlan(meal)" />
+          </div>
         </div>
       </div>
     </div>
@@ -122,7 +132,7 @@ const mealConsumedClass = (meal: MealPlan) => {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin: 30px 0;
+  margin: 30px 30px 10px 30px;
 }
 
 .meal-plan-card__header-day {
@@ -169,5 +179,27 @@ const mealConsumedClass = (meal: MealPlan) => {
   justify-content: space-between;
   width: 100%;
   margin: 10px 0;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 30%;
+}
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 96%;
+  background-color:#1e1e1e;
+  height: 1px;
 }
 </style>

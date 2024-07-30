@@ -7,7 +7,7 @@ import Navigation from "./components/Navigation.vue";
   <main>
     <section class="main-app-section">
       <router-view/>
-      <Footer/>
+      <Navigation />
     </section>
   </main>
 

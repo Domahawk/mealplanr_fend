@@ -6,10 +6,11 @@ import moment, {Moment} from "moment";
 import {MealPlans} from "@/types/mealPlans.ts";
 import MealPlanCard from "@/components/MealPlanCard.vue";
 import MealPlanCardSmall from "@/components/MealPlanCardSmall.vue";
+import {MealPlan} from "@/types/model/mealPlan.ts";
 
 const mealPlans: Ref<MealPlans[] | null> = ref(null);
 const currentDate: Moment = moment();
-const currentlySelectedPlan: Ref<MealPlans | null> = ref(null);
+const currentlySelectedPlans: Ref<MealPlans | null> = ref(null);
 
 const getMealPlans = async () => {
   let response = await mealPlanClient.get();
@@ -20,26 +21,40 @@ const getMealPlans = async () => {
 const selectDefaultMealPlan = () => {
   mealPlans.value?.forEach((mealPlan: MealPlans) => {
     if (mealPlan.date === currentDate.format('Y-MM-DD').toString()) {
-      currentlySelectedPlan.value = mealPlan
+      currentlySelectedPlans.value = mealPlan
     }
   })
 }
 
-const isMealPlanOpen = (mealPlan: MealPlans): boolean => {
-  return mealPlan.date === currentlySelectedPlan.value?.date;
+const isMealPlanOpen = (mealPlans: MealPlans): boolean => {
+  return mealPlans.date === currentlySelectedPlans.value?.date;
 }
 
-const selectMealPlan = (mealPlan: MealPlans): void => {
-  currentlySelectedPlan.value = mealPlan;
+const removeMealFromMealPlan = (meal: MealPlan): void => {
+  if (currentlySelectedPlans.value === null) {
+    return
+  }
+
+  currentlySelectedPlans.value.meals = currentlySelectedPlans.value.meals.filter(
+      (mealPlan: MealPlan) => mealPlan.mealPlanId !== meal.mealPlanId
+  );
 }
 
-onMounted(getMealPlans)
+onMounted(getMealPlans);
 </script>
 
 <template>
   <section class="plan-container" v-for="mealPlan in mealPlans">
-    <MealPlanCard :meal-plans="mealPlan" v-if="isMealPlanOpen(mealPlan)" />
-    <MealPlanCardSmall :meal-plan="mealPlan" v-else @click="selectMealPlan(mealPlan)" />
+    <MealPlanCard
+        v-if="isMealPlanOpen(mealPlan)"
+        :meal-plans="mealPlan"
+        @remove-meal-from-meal-plan="(value: MealPlan) => removeMealFromMealPlan(value)"
+    />
+    <MealPlanCardSmall
+        v-else
+        :meal-plan="mealPlan"
+        @click="currentlySelectedPlans = mealPlan"
+    />
   </section>
 </template>
 

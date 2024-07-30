@@ -17,7 +17,6 @@ withDefaults(defineProps<{
         <h2 class="zero-margin-padding">{{ getDayOfWeek(mealPlan?.date) }}</h2>
         <p class="zero-margin-padding">{{ formatDate(mealPlan?.date) }}</p>
       </div>
-      <button class="add-button">+</button>
     </div>
   </section>
 </template>
@@ -30,7 +29,7 @@ withDefaults(defineProps<{
   background: var(--container-bg);
   border-radius: 12px;
   min-width: 340px;
-  padding: 0 30px 30px 30px;
+  padding: 0 30px;
   width: 100%;
   margin: 5px 0;
 }

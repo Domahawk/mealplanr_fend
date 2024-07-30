@@ -99,12 +99,12 @@ const mealConsumedClass = (meal: MealPlan) => {
       <hr>
       <div class="meal-plan-card__body-meals">
         <div v-for="meal in mealPlans.meals" class="meal-plan-card__body-meals__meal">
-          <div class="info-container">
+          <div :class="mealConsumedClass(meal)" class="info-container">
             <p class="zero-margin-padding"> {{ meal.meal.name }} </p>
             <p class="zero-margin-padding"> {{ calculateCalories(meal.meal) }} </p>
           </div>
           <div class="button-container">
-            <MarkButton />
+            <MarkButton @markElement="markMealAsEaten(meal)" />
             <RemoveButton @remove-element="removeMealFromPlan(meal)" />
           </div>
         </div>
@@ -192,6 +192,10 @@ const mealConsumedClass = (meal: MealPlan) => {
   flex-direction: row;
   justify-content: space-between;
   width: 30%;
+}
+
+.eaten {
+  opacity: 0.2;
 }
 
 hr {

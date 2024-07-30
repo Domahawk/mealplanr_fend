@@ -1,4 +1,5 @@
 import {Meal} from "@/types/model/meal.ts";
+import moment from "moment/moment";
 
 export function calculateCalories (meal: Meal | null): number {
     if (!meal) {
@@ -25,4 +26,16 @@ export function extractTokenFromCookie(): string | null {
     });
 
     return token ? token : null;
+}
+
+export function getDayOfWeek(date: string | undefined): string {
+    return moment(date).format('dddd')
+}
+
+export function formatDate(date: string | undefined): string {
+    if (date === undefined) {
+        return '';
+    }
+
+    return moment(date).format('DD.MM.YYYY')
 }

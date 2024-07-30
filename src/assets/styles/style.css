@@ -37,3 +37,22 @@ nav ul {
   flex-direction: column;
   width: 100%;
 }
+
+.remove-button {
+  background: var(--danger-color);
+  border-radius: 12px;
+  padding: 3px 15px;
+  border: none;
+}
+
+.add-button {
+  background: var(--safe-color);
+  border-radius: 12px;
+  padding: 3px 15px;
+  border: none;
+}
+
+.zero-margin-padding {
+  margin: 0;
+  padding: 0;
+}

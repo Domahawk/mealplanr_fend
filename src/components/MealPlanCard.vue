@@ -114,6 +114,9 @@ const mealConsumedClass = (meal: MealPlan) => {
 </template>
 
 <style scoped>
+
+
+
 .meal-plan-card {
   display: flex;
   flex-direction: column;

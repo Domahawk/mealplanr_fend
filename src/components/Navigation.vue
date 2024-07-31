@@ -86,6 +86,8 @@ const toggleMenu = () => {
   left: 0;
   z-index: 1;
   border-radius: 12px 12px 0 0;
+  border: 2px solid var(--border-color);
+  border-bottom: none;
 }
 
 .navigation-list {
@@ -120,7 +122,7 @@ const toggleMenu = () => {
 
 .navigation-list-enter-active,
 .navigation-list-leave-active {
-  transition: height 0.5s ease-out, opacity 0.3s ease-out;
+  transition: height 0.3s ease-out, opacity 0.1s ease-out;
 }
 
 .navigation-list-enter-to,

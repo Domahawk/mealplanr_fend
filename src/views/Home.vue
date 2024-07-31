@@ -44,18 +44,20 @@ onMounted(getMealPlans);
 </script>
 
 <template>
-  <section class="plan-container" v-for="mealPlan in mealPlans">
-    <MealPlanCard
-        v-if="isMealPlanOpen(mealPlan)"
-        :meal-plans="mealPlan"
-        @remove-meal-from-meal-plan="(value: MealPlan) => removeMealFromMealPlan(value)"
-    />
-    <MealPlanCardSmall
-        v-else
-        :meal-plan="mealPlan"
-        @click="currentlySelectedPlans = mealPlan"
-    />
-  </section>
+  <TransitionGroup name="plan-container">
+    <section class="plan-container" v-for="(mealPlan, key) in mealPlans" :key>
+      <MealPlanCard
+          v-if="isMealPlanOpen(mealPlan)"
+          :meal-plans="mealPlan"
+          @remove-meal-from-meal-plan="(value: MealPlan) => removeMealFromMealPlan(value)"
+      />
+      <MealPlanCardSmall
+          v-else
+          :meal-plan="mealPlan"
+          @click="currentlySelectedPlans = mealPlan"
+      />
+    </section>
+  </TransitionGroup>
 </template>
 
 <style scoped>
@@ -68,5 +70,20 @@ onMounted(getMealPlans);
   padding: 5px;
   width: 100%;
   max-width: 800px;
+}
+
+.plan-container-enter-from {
+  opacity: 0;
+}
+
+.plan-container-enter-to,
+.plan-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.plan-container-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

@@ -203,7 +203,7 @@ hr {
   clear:both;
   display:block;
   width: 96%;
-  background-color:#1e1e1e;
+  background-color:var(--border-color);
   height: 1px;
 }
 </style>

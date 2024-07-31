@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
-:root {
+:root[color-mode="light"] {
     --primary: #fff;
     --background: #C6DCF0;
     --container-bg: #DBEEFF;
@@ -12,6 +12,61 @@
     --info-color: #3D9CE0;
     --safe-color: #4cc14e;
     --danger-color: #E03D3D;
+    --active: #3D9CE07F;
+
+    font-family: Comfortaa, sans-serif;
+    font-size: 13px;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root[color-mode="dark"] {
+    --primary: #fff;
+    --background: #151515;
+    --container-bg: #171717;
+    --border-color: #000000;
+    --text-color: #000000;
+    --heading-color: #ffffff;
+    --link-color: #ff9800;
+    --link-hover-color: #ff5722;
+    --disabled-button-color: #5a5a5a;
+    --info-color: #3D9CE0;
+    --safe-color: #4cc14e;
+    --danger-color: #E03D3D;
+    --active: #3D9CE07F;
+
+    font-family: Comfortaa, sans-serif;
+    font-size: 13px;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root[color-mode="neon"] {
+    --primary: #fff;
+    --background: #151515;
+    --container-bg: #171717;
+    --border-color: #000000;
+    --text-color: #000000;
+    --heading-color: #ffffff;
+    --link-color: #ff9800;
+    --link-hover-color: #ff5722;
+    --disabled-button-color: #5a5a5a;
+    --info-color: #3D9CE0;
+    --safe-color: #4cc14e;
+    --danger-color: #E03D3D;
+    --active: #3D9CE07F;
 
     font-family: Comfortaa, sans-serif;
     font-size: 13px;

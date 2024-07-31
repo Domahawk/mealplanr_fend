@@ -15,7 +15,7 @@ onMounted(initTheme);
     <section class="main-app-section">
       <ColorModeSwitcher />
       <router-view/>
-      <Navigation />
+      <Navigation/>
     </section>
   </main>
 

@@ -20,4 +20,19 @@ let data: Ref<string> = ref('');
 </template>
 
 <style scoped>
+input {
+  background: var(--background);
+  border: none;
+  border-radius: 12px;
+  padding: 20px;
+  color: var(--text-color);
+  margin: 5px 5px 0 5px;
+  width: 100%;
+  height: 25px;
+  font-family: Comfortaa, sans-serif;
+}
+
+input:focus {
+  outline: none;
+}
 </style>

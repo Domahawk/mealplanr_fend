@@ -19,16 +19,23 @@ onMounted(getIngredients);
 </script>
 
 <template>
-  <section>
+  <section class="ingredients-table-container">
     <Table title="Ingredient List"
            title-two="List Of Ingredients"
            :table-data=tableIngredients
            redirect-link="/ingredients/"
     />
+    <Pagination :client="ingredientsClient" @update-data="(ingredients: Model[]) => tableIngredients = ingredients as TableIngredient[]" />
   </section>
-  <Pagination :client="ingredientsClient" @update-data="(ingredients: Model[]) => tableIngredients = ingredients as TableIngredient[]" />
 </template>
 
 <style scoped>
-
+.ingredients-table-container {
+  margin: 10px;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>

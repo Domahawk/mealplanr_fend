@@ -22,5 +22,4 @@ onMounted(initTheme);
 </template>
 
 <style scoped>
-
 </style>

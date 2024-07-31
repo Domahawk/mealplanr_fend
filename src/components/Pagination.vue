@@ -3,6 +3,8 @@ import {ref, Ref} from "vue";
 import {ApiClient} from "@/types/network/apiClient/apiClient.ts";
 import {Model} from "@/types/model/model.ts";
 import {ApiResponse} from "@/types/network/response/apiResponse.ts";
+import ArrowLeftSvg from "@/components/SvgComponents/ArrowLeftSvg.vue";
+import ArrowRightSvg from "@/components/SvgComponents/ArrowRightSvg.vue";
 
 type Buttons = {
   prev: ButtonConfiguration,
@@ -57,11 +59,28 @@ const getData = async (): Promise<ApiResponse> => {
 
 <template>
   <div class="pagination">
-    <button v-if="setCurrPage.prev.condition()" @click="getPageData(setCurrPage.prev)">Previous</button>
-    <button v-if="setCurrPage.next.condition()" @click="getPageData(setCurrPage.next)">Next</button>
+    <div v-if="setCurrPage.prev.condition()" @click="getPageData(setCurrPage.prev)" class="pagination__back">
+      <ArrowLeftSvg />
+    </div>
+    <div v-if="setCurrPage.next.condition()" @click="getPageData(setCurrPage.next)" class="pagination__forward">
+      <ArrowRightSvg />
+    </div>
   </div>
 </template>
 
 <style scoped>
+.pagination {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 30%;
+}
 
+.pagination__back {
+  grid-column-start: 1;
+}
+
+.pagination__forward {
+  grid-column-start: 4;
+}
 </style>

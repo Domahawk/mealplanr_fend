@@ -104,7 +104,7 @@ function selectOption (option: Model): void {
   border: none;
   border-radius: 12px;
   padding: 20px;
-  color: #000000;
+  color: var(--text-color);
   margin: 5px 5px 0 5px;
   width: 100%;
   height: 25px;

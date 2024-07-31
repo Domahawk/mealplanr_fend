@@ -11,6 +11,8 @@ import {mealsClient} from "@/network/endpoints/mealsClient.ts";
 import SubmitButton from "@/components/Buttons/SubmitButton.vue";
 import NumberInputField from "@/components/FormFields/NumberInputField.vue";
 import TextInputField from "@/components/FormFields/TextInputField.vue";
+import AddButton from "@/components/Buttons/AddButton.vue";
+import RemoveButton from "@/components/Buttons/RemoveButton.vue";
 
 const mealName: Ref<string> = ref('');
 const selectedIngredient: Ref<Ingredient> = ref(<Ingredient>{});
@@ -89,7 +91,7 @@ onMounted(getIngredients)
   </hgroup>
   <section class="meal-form">
     <div class="form-section-container">
-      <TextInputField @text-data="(value: string) => mealName = value"/>
+      <TextInputField label="Meal name" @text-data="(value: string) => mealName = value"/>
     </div>
     <div class="form-section-container">
       <div class="add-ingredient-fields">
@@ -102,52 +104,49 @@ onMounted(getIngredients)
       </div>
       <div class="added-ingredients">
         <p>{{ selectedIngredient?.name }}</p>
-        <SubmitButton
-            :isDisabled="isAddIngredientDisabled"
-            @submit="addIngredient"
-            button-name="Add Ingredient"
-        />
+        <AddButton @addElement="addIngredient" />
       </div>
     </div>
   </section>
     <section class="selected-ingredients">
       <h3>Selected ingredients</h3>
-      <div v-for="(mealIngredient, index) in ingredients">
-        {{ mealIngredient.ingredient?.name }}
-        {{ mealIngredient?.grams }}
-        <button @click="removeIngredient(index)">Remove</button>
+      <div class="selected-ingredients__ingredient" v-for="(mealIngredient, index) in ingredients">
+        <p>{{ mealIngredient.ingredient?.name }} {{ mealIngredient?.grams }}</p>
+        <RemoveButton @remove-element="removeIngredient(index)"/>
       </div>
+      <SubmitButton
+          :isDisabled="isDisabled"
+          @submit="createMealRequest"
+      />
     </section>
-  <SubmitButton
-      :isDisabled="isDisabled"
-      @submit="createMealRequest"
-  />
 </template>
 <style scoped>
 .meal-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 15px;
+  width: 100%;
+  max-width: 800px;
 }
 
 .form-section-container {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: start;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: 300px;
-  background: var(--background);
+  background: var(--container-bg);
   margin: 10px;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .add-ingredient-fields {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
@@ -163,10 +162,19 @@ onMounted(getIngredients)
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
   background: var(--background);
   margin: 10px;
   padding: 30px;
   border-radius: 10px;
+  width: 100%;
+}
+
+.selected-ingredients__ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
 }
 </style>

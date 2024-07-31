@@ -71,12 +71,34 @@ const redirect = (itemId?: string | number): void => {
 </template>
 
 <style scoped>
+.table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--container-bg);
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+table {
+  min-width: 320px;
+  width: 100%;
+}
+
+table, th, td {
+  border-bottom: 1px solid var(--border-color);
+  border-collapse: collapse;
+  padding: 2%;
+  font-size: 12px;
+  text-align: center;
+}
 .clickable-row {
   cursor: pointer;
   transition: background-color 0.5s ease;
 }
 
 .clickable-row:hover {
-  background-color: var(--link-hover-color);
+  background-color: var(--active);
 }
 </style>

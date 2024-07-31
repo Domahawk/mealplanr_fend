@@ -42,17 +42,29 @@ const formatIngredients = (meal: Meal): string => {
 onMounted(getMeals);
 </script>
 <template>
-  <RedirectTable title="Meal List"
-         title-two="List Of Meals"
-         :table-data=tableMeals
-         redirect-link="/meals/"
-         :redirect=true
-  />
+  <section class="meals-table-container">
+    <RedirectTable title="Meal List"
+                   title-two="List Of Meals"
+                   :table-data=tableMeals
+                   redirect-link="/meals/"
+                   :redirect=true
+    />
 
-  <Pagination
-      :client="mealsClient"
-      @update-data="(meals: Model[]): TableMeal[] => tableMeals = formatMeals(meals as Meal[])"
-  />
+    <Pagination
+        :client="mealsClient"
+        @update-data="(meals: Model[]): TableMeal[] => tableMeals = formatMeals(meals as Meal[])"
+    />
+  </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.meals-table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 10px;
+}
+</style>

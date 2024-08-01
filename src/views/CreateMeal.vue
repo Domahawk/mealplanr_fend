@@ -11,6 +11,8 @@ import {mealsClient} from "@/network/endpoints/mealsClient.ts";
 import SubmitButton from "@/components/Buttons/SubmitButton.vue";
 import NumberInputField from "@/components/FormFields/NumberInputField.vue";
 import TextInputField from "@/components/FormFields/TextInputField.vue";
+import AddButton from "@/components/Buttons/AddButton.vue";
+import RemoveButton from "@/components/Buttons/RemoveButton.vue";
 
 const mealName: Ref<string> = ref('');
 const selectedIngredient: Ref<Ingredient> = ref(<Ingredient>{});
@@ -20,10 +22,6 @@ const options: Ref<Ingredient[]> = ref([]);
 const iStore = useIngredientsStore();
 
 let timeout: ReturnType<typeof setTimeout> = setTimeout(() => '', 0);
-
-const isAddIngredientDisabled = computed(() => {
-  return Object.keys(selectedIngredient.value).length === 0 || grams.value === 0;
-});
 
 const isDisabled = computed(() => {
   return mealName.value.length === 0 || ingredients.value.length === 0;
@@ -83,71 +81,106 @@ onMounted(getIngredients)
 </script>
 
 <template>
-  <hgroup>
-    <h2>Create Meal</h2>
-    <h3>Enter meal details</h3>
-  </hgroup>
-  <section class="meal-form">
-    <div class="form-section-container">
-      <TextInputField @text-data="(value: string) => mealName = value"/>
-    </div>
-    <div class="form-section-container">
-      <div class="add-ingredient-fields">
-        <SearchSelect
-            :select-options="options"
-            @search="filterIngredients"
-            @addElement="(value: Model): void => {selectedIngredient = value as Ingredient}"
-        />
-        <NumberInputField label="Grams" :start-data="grams" @data-update="updateGrams"/>
-      </div>
-      <div class="added-ingredients">
-        <p>{{ selectedIngredient?.name }}</p>
+  <Transition name="meal-form-container" appear>
+    <section class="meal-form-container">
+      <h2>Create Meal</h2>
+      <h3>Enter meal details</h3>
+      <section class="meal-form">
+        <div class="form-section-container">
+          <TextInputField label="Meal name" @text-data="(value: string) => mealName = value"/>
+        </div>
+        <div class="form-section-container">
+          <div class="add-ingredient-fields">
+            <SearchSelect
+                :select-options="options"
+                @search="filterIngredients"
+                @addElement="(value: Model): void => {selectedIngredient = value as Ingredient}"
+            />
+            <NumberInputField label="Grams" :start-data="grams" @data-update="updateGrams"/>
+          </div>
+          <div class="added-ingredients">
+            <p>{{ selectedIngredient?.name }}</p>
+            <AddButton @addElement="addIngredient" />
+          </div>
+        </div>
+      </section>
+      <section class="selected-ingredients">
+        <h3>Selected ingredients</h3>
+        <TransitionGroup name="selected-ingredients__ingredient">
+          <div class="selected-ingredients__ingredient" v-for="(mealIngredient, index) in ingredients" :key="index">
+            <p>{{ mealIngredient.ingredient?.name }} {{ mealIngredient?.grams }}</p>
+            <RemoveButton @remove-element="removeIngredient(index)"/>
+          </div>
+        </TransitionGroup>
         <SubmitButton
-            :isDisabled="isAddIngredientDisabled"
-            @submit="addIngredient"
-            button-name="Add Ingredient"
+            :isDisabled="isDisabled"
+            @submit="createMealRequest"
         />
-      </div>
-    </div>
-  </section>
-    <section class="selected-ingredients">
-      <h3>Selected ingredients</h3>
-      <div v-for="(mealIngredient, index) in ingredients">
-        {{ mealIngredient.ingredient?.name }}
-        {{ mealIngredient?.grams }}
-        <button @click="removeIngredient(index)">Remove</button>
-      </div>
+      </section>
     </section>
-  <SubmitButton
-      :isDisabled="isDisabled"
-      @submit="createMealRequest"
-  />
+  </Transition>
 </template>
 <style scoped>
+
+.selected-ingredients__ingredient-leave-to,
+.selected-ingredients__ingredient-enter-from {
+  opacity: 0;
+  transform: translateX(800px);
+
+}
+
+.selected-ingredients__ingredient-leave-active,
+.selected-ingredients__ingredient-enter-active,
+.selected-ingredients__ingredient-enter-to,
+.selected-ingredients__ingredient-leave-from {
+  transition: all 0.2s ease;
+}
+
+.meal-form-container-leave-to,
+.meal-form-container-enter-from {
+  opacity: 0;
+}
+
+.meal-form-container-enter-to,
+.meal-form-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.meal-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+}
+
 .meal-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 15px;
+  width: 100%;
 }
 
 .form-section-container {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: start;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: 300px;
-  background: var(--background);
+  background: var(--container-bg);
   margin: 10px;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .add-ingredient-fields {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
@@ -163,10 +196,19 @@ onMounted(getIngredients)
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
   background: var(--background);
   margin: 10px;
   padding: 30px;
   border-radius: 10px;
+  width: 100%;
+}
+
+.selected-ingredients__ingredient {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
 }
 </style>

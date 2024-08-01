@@ -1,22 +1,106 @@
-:root {
-    --primary: #fff;
-    --background: #121212;
-    --container-bg: #1e1e1e;
-    --border-color: #e0e0e0;
-    --text-color: #e0e0e0;
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+/*:root[color-mode="light"] {*/
+/*    --primary: #fff;*/
+/*    --background: #C6DCF0;*/
+/*    --container-bg: #DBEEFF;*/
+/*    --border-color: #000000;*/
+/*    --text-color: #000000;*/
+/*    --heading-color: #ffffff;*/
+/*    --link-color: #ff9800;*/
+/*    --link-hover-color: #ff5722;*/
+/*    --disabled-button-color: #5a5a5a;*/
+/*    --info-color: #3D9CE0;*/
+/*    --safe-color: #4cc14e;*/
+/*    --danger-color: #E03D3D;*/
+/*    --active: #3D9CE07F;*/
+/*    --navbar-bg: #B0BEC5;*/
+
+/*    font-family: Comfortaa, sans-serif;*/
+/*    font-size: 13px;*/
+
+/*    color-scheme: light dark;*/
+/*    color: rgba(255, 255, 255, 0.87);*/
+
+/*    font-synthesis: none;*/
+/*    text-rendering: optimizeLegibility;*/
+/*    -webkit-font-smoothing: antialiased;*/
+/*    -moz-osx-font-smoothing: grayscale;*/
+/*}*/
+
+:root[color-mode="light"] {
+    --background: #F3F4F6;
+    --container-bg: #FFFFFF;
+    --border-color: #E0E0E0;
+    --text-color: #555555;
+    --disabled-button-color: #5a5a5a;
+    --info-color: #3D9CE0;
+    --safe-color: #4CAF50;
+    --danger-color: #FF5722;
+    --active: #3D9CE07F;
+    --navbar-bg: #B0BEC5;
+
+    --link-color: #ff9800;
+    --heading-color: #ffffff;
+    --link-hover-color: #ff5722;
+
+
+    font-family: Comfortaa, sans-serif;
+    font-size: 13px;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root[color-mode="dark"] {
+    --background: #151515;
+    --container-bg: #171717;
+    --border-color: #000000;
+    --text-color: #000000;
     --heading-color: #ffffff;
     --link-color: #ff9800;
     --link-hover-color: #ff5722;
     --disabled-button-color: #5a5a5a;
-    --danger-color: #d9534f;
+    --info-color: #3D9CE0;
+    --safe-color: #4cc14e;
+    --danger-color: #E03D3D;
+    --active: #3D9CE07F;
 
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+    font-family: Comfortaa, sans-serif;
+    font-size: 13px;
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root[color-mode="neon"] {
+    --background: #151515;
+    --container-bg: #171717;
+    --border-color: #000000;
+    --text-color: #000000;
+    --heading-color: #ffffff;
+    --link-color: #ff9800;
+    --link-hover-color: #ff5722;
+    --disabled-button-color: #5a5a5a;
+    --info-color: #3D9CE0;
+    --safe-color: #4cc14e;
+    --danger-color: #E03D3D;
+    --active: #3D9CE07F;
+
+    font-family: Comfortaa, sans-serif;
+    font-size: 13px;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;

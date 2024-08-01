@@ -19,13 +19,49 @@ onMounted(getIngredient);
 </script>
 
 <template>
-  <BackButton />
-  <main class="container">
-    <hgroup>
-      <h2>Ingredient Name: <span id="ingredient-name">{{ ingredient.name }}</span></h2>
-      <h3>Calories per 100g: <span id="ingredient-calories">{{ ingredient.calories }}</span></h3>
-    </hgroup>
-  </main>
+  <Transition name="ingredient-view-container" appear>
+    <section class="ingredient-view-container">
+      <BackButton/>
+      <div class="ingredient-view-container__info">
+        <h2>Ingredient Name:</h2>
+        <p>{{ ingredient.name }}</p>
+        <h3>Calories per 100g:</h3>
+        <p>{{ ingredient.calories }}</p>
+      </div>
+    </section>
+  </Transition>
 </template>
 
-<style scoped></style>
+<style scoped>
+.ingredient-view-container-leave-to,
+.ingredient-view-container-enter-from {
+  opacity: 0;
+}
+
+.ingredient-view-container-enter-to,
+.ingredient-view-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.ingredient-view-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.ingredient-view-container__info {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--container-bg);
+  border-radius: 12px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+</style>

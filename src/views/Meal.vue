@@ -22,22 +22,54 @@ onMounted(getMeal);
 </script>
 
 <template>
-  <BackButton />
-  <main class="container">
-    <hgroup>
-      <h2>Meal Name: <span id="meal-name">{{ meal?.name }}</span></h2>
-      <h3>Total Calories: <span id="meal-calories">{{ calculateCalories(meal) }}</span></h3>
-    </hgroup>
-    <RedirectTable
-        title="Ingredients"
-        :table-data="meal?.ingredients"
-        :table-headers="tableRowHeader"
-        title-two="List of Ingredients"
-        redirect-link="/ingredients/"
-    />
-  </main>
+  <Transition name="meal-view-container" appear>
+    <section class="meal-view-container">
+      <BackButton />
+      <div class="meal-view-container__info">
+        <h2>Meal Name:</h2>
+        <p>{{ meal?.name }}</p>
+        <h3>Total Calories:</h3>
+        <p>{{ calculateCalories(meal) }}</p>
+      </div>
+      <RedirectTable
+          title="Ingredients"
+          :table-data="meal?.ingredients"
+          :table-headers="tableRowHeader"
+          title-two="List of Ingredients"
+          redirect-link="/ingredients/"
+      />
+    </section>
+  </Transition>
 </template>
 
 <style scoped>
+.meal-view-container-leave-to,
+.meal-view-container-enter-from {
+  opacity: 0;
+}
 
+.meal-view-container-enter-to,
+.meal-view-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.meal-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  max-width: 800px;
+}
+
+.meal-view-container__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: var(--container-bg);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
 </style>

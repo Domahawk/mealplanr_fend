@@ -37,8 +37,11 @@ const disabledButton = computed(() => {
 
 <style scoped>
 .submit-button {
+  background: var(--safe-color);
   align-self: end;
   margin: 20px;
+  padding: 10px;
+  border-radius: 12px;
 }
 
 .disabled-button {

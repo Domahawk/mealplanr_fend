@@ -1,20 +1,24 @@
 <script setup lang="ts">
-import Footer from "./components/Footer.vue";
 import Navigation from "./components/Navigation.vue";
+import useTheme from "@/composables/useTheme.ts"
+import {onMounted} from "vue";
+import ColorModeSwitcher from "@/components/Buttons/ColorModeSwitcher.vue";
+
+const {initTheme} = useTheme();
+
+onMounted(initTheme);
 </script>
 
 <template>
-  <Navigation/>
-
   <main>
-    <section class="container">
-        <router-view/>
+    <section class="main-app-section">
+      <ColorModeSwitcher />
+      <router-view/>
+      <Navigation/>
     </section>
   </main>
 
-  <Footer/>
 </template>
 
 <style scoped>
-
 </style>

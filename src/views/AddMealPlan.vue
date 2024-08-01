@@ -141,7 +141,7 @@ onMounted(async () => {
 }
 
 .remove-element:hover {
-  background: var(--primary);
+  background: var(--active);
 }
 
 .submit-button {

@@ -100,6 +100,6 @@ table, th, td {
 }
 
 .clickable-row:hover {
-  background-color: var(--active);
+  background-color: var(--link-hover-color);
 }
 </style>

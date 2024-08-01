@@ -88,15 +88,15 @@ const mealConsumedClass = (meal: MealPlan) => {
       </div>
       <AddButton @addElement="isModalOpen = true" />
     </div>
-    <hr>
+    <hr class="neon-glow">
     <div class="meal-plan-card__body">
       <div class="meal-plan-card__body-info">
-        <div v-for="(value, key) in calculateCurrentCalories()" :key="key" class="meal-plan-card__body-info__element">
+        <div v-for="(value, key) in calculateCurrentCalories()" :key="key" class="meal-plan-card__body-info__element neon-glow">
           <p class="zero-margin-padding">{{ key.toUpperCase() }}</p>
           <p class="zero-margin-padding">{{ value }}</p>
         </div>
       </div>
-      <hr>
+      <hr class="neon-glow">
       <div class="meal-plan-card__body-meals">
         <div v-for="meal in mealPlans.meals" class="meal-plan-card__body-meals__meal">
           <div :class="mealConsumedClass(meal)" class="info-container">
@@ -166,6 +166,7 @@ const mealConsumedClass = (meal: MealPlan) => {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  color: var(--secondary-text-color);
 }
 
 .meal-plan-card__body-meals {

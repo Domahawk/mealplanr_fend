@@ -14,7 +14,7 @@ const isActive = (icon: string): string => {
 </script>
 
 <template>
-  <section class="color-mode-switcher">
+  <section class="color-mode-switcher neon-glow">
     <div class="light-mode" :class="isActive('light')" @click="toggleTheme('light')">
       <svg xmlns="http://www.w3.org/2000/svg"
            width="20" height="20"
@@ -106,11 +106,7 @@ const isActive = (icon: string): string => {
   align-items: center;
   justify-content: center;
   padding: 2px;
-}
-
-.glow {
-  color: #ce4aff;
-  filter: drop-shadow(0 0 2px #ce4aff); /* Yellow glow */
+  color: var(--text-color);
 }
 
 .active {

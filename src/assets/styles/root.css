@@ -1,37 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
-/*:root[color-mode="light"] {*/
-/*    --primary: #fff;*/
-/*    --background: #C6DCF0;*/
-/*    --container-bg: #DBEEFF;*/
-/*    --border-color: #000000;*/
-/*    --text-color: #000000;*/
-/*    --heading-color: #ffffff;*/
-/*    --link-color: #ff9800;*/
-/*    --link-hover-color: #ff5722;*/
-/*    --disabled-button-color: #5a5a5a;*/
-/*    --info-color: #3D9CE0;*/
-/*    --safe-color: #4cc14e;*/
-/*    --danger-color: #E03D3D;*/
-/*    --active: #3D9CE07F;*/
-/*    --navbar-bg: #B0BEC5;*/
-
-/*    font-family: Comfortaa, sans-serif;*/
-/*    font-size: 13px;*/
-
-/*    color-scheme: light dark;*/
-/*    color: rgba(255, 255, 255, 0.87);*/
-
-/*    font-synthesis: none;*/
-/*    text-rendering: optimizeLegibility;*/
-/*    -webkit-font-smoothing: antialiased;*/
-/*    -moz-osx-font-smoothing: grayscale;*/
-/*}*/
 
 :root[color-mode="light"] {
     --background: #F3F4F6;
     --container-bg: #FFFFFF;
     --border-color: #E0E0E0;
     --text-color: #555555;
+    --secondary-text-color: #B0B0B0;
     --disabled-button-color: #5a5a5a;
     --info-color: #3D9CE0;
     --safe-color: #4CAF50;
@@ -57,18 +31,16 @@
 }
 
 :root[color-mode="dark"] {
-    --background: #151515;
-    --container-bg: #171717;
-    --border-color: #000000;
-    --text-color: #000000;
-    --heading-color: #ffffff;
-    --link-color: #ff9800;
-    --link-hover-color: #ff5722;
+    --background: #1E1E1E;
+    --container-bg: #121212;
+    --border-color: #2C2C2C;
+    --text-color: #FFFFFF;
+    --secondary-text-color: #B0B0B0;
     --disabled-button-color: #5a5a5a;
     --info-color: #3D9CE0;
-    --safe-color: #4cc14e;
+    --safe-color: #006800;
     --danger-color: #E03D3D;
-    --active: #3D9CE07F;
+    --active: rgba(27, 67, 90, 0.5);
 
     font-family: Comfortaa, sans-serif;
     font-size: 13px;
@@ -83,17 +55,17 @@
 }
 
 :root[color-mode="neon"] {
-    --background: #151515;
-    --container-bg: #171717;
-    --border-color: #000000;
-    --text-color: #000000;
-    --heading-color: #ffffff;
-    --link-color: #ff9800;
-    --link-hover-color: #ff5722;
+    --background: #121212;
+    --container-bg: #1E1E1E;
+    --border-color: #00FFFF;
+    --text-color: #FFFFFF;
+    --secondary-text-color: #fdb2e7;
+    --link-color: #00FFFF;
+    --link-hover-color: #39FF14;
     --disabled-button-color: #5a5a5a;
     --info-color: #3D9CE0;
-    --safe-color: #4cc14e;
-    --danger-color: #E03D3D;
+    --safe-color: #39FF14;
+    --danger-color: #FF6EC7;
     --active: #3D9CE07F;
 
     font-family: Comfortaa, sans-serif;
@@ -106,4 +78,8 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+:root[color-mode="neon"] .neon-glow {
+    filter: drop-shadow(0 0 2px currentColor);
 }

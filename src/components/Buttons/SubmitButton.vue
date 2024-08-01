@@ -42,6 +42,7 @@ const disabledButton = computed(() => {
   margin: 20px;
   padding: 10px;
   border-radius: 12px;
+  color: var(--text-color);
 }
 
 .disabled-button {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from "@/router/router.ts";
 import {TableItem} from "@/types/tableItem.ts";
-import {computed, watch} from "vue";
+import {computed} from "vue";
 
 const props = withDefaults(defineProps<{
   title?: string,

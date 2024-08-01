@@ -23,10 +23,6 @@ const iStore = useIngredientsStore();
 
 let timeout: ReturnType<typeof setTimeout> = setTimeout(() => '', 0);
 
-const isAddIngredientDisabled = computed(() => {
-  return Object.keys(selectedIngredient.value).length === 0 || grams.value === 0;
-});
-
 const isDisabled = computed(() => {
   return mealName.value.length === 0 || ingredients.value.length === 0;
 });

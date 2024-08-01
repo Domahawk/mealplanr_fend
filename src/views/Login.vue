@@ -2,7 +2,6 @@
 import {Ref, ref} from "vue";
 import {useAuthStore} from "@/store/auth.ts";
 import TextInputField from "@/components/FormFields/TextInputField.vue";
-import LogoutSvg from "@/components/SvgComponents/LogoutSvg.vue";
 import LoginSvg from "@/components/SvgComponents/LoginSvg.vue";
 
 const email: Ref<string> = ref('');

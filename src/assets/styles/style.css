@@ -71,3 +71,8 @@ button {
   margin: 0;
   padding: 0;
 }
+
+.glow {
+  color: #ce4aff;
+  filter: drop-shadow(0 0 2px #ce4aff);
+}

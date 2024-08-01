@@ -20,7 +20,7 @@ const toggleMenu = () => {
 </script>
 
 <template>
-  <nav class="navigation-container">
+  <nav class="navigation-container neon-glow">
     <div v-if="authStore.isAuthenticated()">
       <Transition name="navigation-list">
         <ul v-if="isMenuOpen" class="navigation-list" @click="toggleMenu">

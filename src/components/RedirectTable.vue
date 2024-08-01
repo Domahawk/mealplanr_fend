@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from "@/router/router.ts";
 import {TableItem} from "@/types/tableItem.ts";
-import {computed} from "vue";
+import {computed, watch} from "vue";
 
 const props = withDefaults(defineProps<{
   title?: string,
@@ -42,7 +42,6 @@ const redirect = (itemId?: string | number): void => {
     router.push(`${props.redirectLink}${itemId}`)
   }
 }
-
 </script>
 
 <template>
@@ -57,15 +56,16 @@ const redirect = (itemId?: string | number): void => {
         <th v-for="head in getTableItemHeaders()">{{ head }}</th>
       </tr>
       </thead>
-      <tbody>
       <tr
           v-for="dataItem in tableData"
           @click="redirect(dataItem.id)"
           :class="rowCLickClass"
+          :key="dataItem.id"
       >
-        <td v-for="data in dataItem">{{ data }}</td>
+        <td v-for="data in dataItem">
+          {{ data }}
+        </td>
       </tr>
-      </tbody>
     </table>
   </section>
 </template>
@@ -93,6 +93,7 @@ table, th, td {
   font-size: 12px;
   text-align: center;
 }
+
 .clickable-row {
   cursor: pointer;
   transition: background-color 0.5s ease;

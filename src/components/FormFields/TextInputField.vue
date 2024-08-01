@@ -1,22 +1,49 @@
 <script setup lang="ts">
-import {Ref, ref} from "vue";
+import {Ref, ref, watch} from "vue";
 
 const emit = defineEmits<{
   (e: 'textData', value: string): void
 }>();
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   label: string;
+  startData?: string;
+  type?: string;
+  id?: string,
+  name?: string,
+  isRequired?: boolean,
 }>(), {
   label: "Data",
+  startData: "",
+  type: "text",
+  id: "text-data",
+  name: "text-data",
+  isRequired: false,
 });
 
-let data: Ref<string> = ref('');
+let data: Ref<string> = ref(props.startData);
+
+watch(() => props.startData,(value: string) => data.value = value)
 </script>
 
 <template>
-  <label for="text-data">{{ label  }}</label>
-  <input id="text-data" v-model="data" @input="emit('textData', data)" />
+  <label for="text-data">{{ label }}</label>
+  <input v-if="isRequired"
+         v-model="data"
+         @input="emit('textData', data)"
+         :type="type"
+         :id="id"
+         :name="name"
+         required
+  />
+  <input v-else
+         v-model="data"
+         @input="emit('textData', data)"
+         :type="type"
+         :id="id"
+         :name="name"
+  />
+  <p>{{data}}</p>
 </template>
 
 <style scoped>

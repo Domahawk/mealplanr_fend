@@ -19,17 +19,30 @@ onMounted(getIngredients);
 </script>
 
 <template>
-  <section class="ingredients-table-container">
-    <Table title="Ingredient List"
-           title-two="List Of Ingredients"
-           :table-data=tableIngredients
-           redirect-link="/ingredients/"
-    />
-    <Pagination :client="ingredientsClient" @update-data="(ingredients: Model[]) => tableIngredients = ingredients as TableIngredient[]" />
-  </section>
+  <Transition name="ingredients-table-container" appear>
+    <section class="ingredients-table-container">
+      <Table title="Ingredient List"
+             title-two="List Of Ingredients"
+             :table-data=tableIngredients
+             redirect-link="/ingredients/"
+      />
+      <Pagination :client="ingredientsClient" @update-data="(ingredients: Model[]) => tableIngredients = ingredients as TableIngredient[]" />
+    </section>
+  </Transition>
 </template>
 
 <style scoped>
+.ingredients-table-container-leave-to,
+.ingredients-table-container-enter-from {
+  opacity: 0;
+}
+
+.ingredients-table-container-enter-to,
+.ingredients-table-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
 .ingredients-table-container {
   margin: 10px;
   width: 100%;

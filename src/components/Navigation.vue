@@ -8,11 +8,13 @@ import IngredientSvg from "@/components/SvgComponents/IngredientSvg.vue";
 import LogoutSvg from "@/components/SvgComponents/LogoutSvg.vue";
 import AddMealSvg from "@/components/SvgComponents/AddMealSvg.vue";
 import AddIngredientSvg from "@/components/SvgComponents/AddIngredientSvg.vue";
+import LoginSvg from "@/components/SvgComponents/LoginSvg.vue";
 
 const authStore = useAuthStore();
 const isMenuOpen = ref(false);
 
 const toggleMenu = () => {
+  console.log(isMenuOpen.value);
   isMenuOpen.value = !isMenuOpen.value;
 }
 </script>
@@ -24,51 +26,56 @@ const toggleMenu = () => {
         <ul v-if="isMenuOpen" class="navigation-list" @click="toggleMenu">
           <li class="navigation-list-element">
             <router-link to="/">
-              <HomeSvg />
+              <HomeSvg/>
               Home
             </router-link>
           </li>
           <li class="navigation-list-element">
             <router-link to="/meals">
-              <MealSvg />
+              <MealSvg/>
               Meals
             </router-link>
           </li>
           <li class="navigation-list-element">
             <router-link to="/ingredients">
-              <IngredientSvg />
+              <IngredientSvg/>
               Ingredients
             </router-link>
           </li>
           <li class="navigation-list-element">
             <router-link to="/meals/create">
-              <AddMealSvg />
+              <AddMealSvg/>
               Create Meal
             </router-link>
           </li>
           <li class="navigation-list-element">
             <router-link to="/ingredients/create">
-              <AddIngredientSvg />
+              <AddIngredientSvg/>
               Create Ingredient
             </router-link>
           </li>
           <li class="navigation-list-element">
             <router-link to="/" @click="authStore.logout()">
-              <LogoutSvg />
+              <LogoutSvg/>
               Logout
             </router-link>
           </li>
         </ul>
       </Transition>
     </div>
-    <ul v-if="!authStore.isAuthenticated">
-      <li>
-        <router-link to="/login">Login</router-link>
-      </li>
-    </ul>
-    <Transition name="navigaton-button">
-      <MenuButton @toggle-menu="toggleMenu"/>
-    </Transition>
+    <div v-else>
+      <Transition name="navigation-list">
+        <ul v-if="isMenuOpen" class="navigation-list" @click="toggleMenu">
+          <li>
+            <router-link to="/login">
+              <LoginSvg />
+              Login
+            </router-link>
+          </li>
+        </ul>
+      </Transition>
+    </div>
+    <MenuButton @toggle-menu="toggleMenu"/>
   </nav>
 </template>
 

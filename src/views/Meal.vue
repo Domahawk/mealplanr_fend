@@ -22,25 +22,38 @@ onMounted(getMeal);
 </script>
 
 <template>
-  <section class="meal-view-container">
-    <BackButton />
-    <div class="meal-view-container__info">
-      <h2>Meal Name:</h2>
-      <p>{{ meal?.name }}</p>
-      <h3>Total Calories:</h3>
-      <p>{{ calculateCalories(meal) }}</p>
-    </div>
+  <Transition name="meal-view-container" appear>
+    <section class="meal-view-container">
+      <BackButton />
+      <div class="meal-view-container__info">
+        <h2>Meal Name:</h2>
+        <p>{{ meal?.name }}</p>
+        <h3>Total Calories:</h3>
+        <p>{{ calculateCalories(meal) }}</p>
+      </div>
       <RedirectTable
-        title="Ingredients"
-        :table-data="meal?.ingredients"
-        :table-headers="tableRowHeader"
-        title-two="List of Ingredients"
-        redirect-link="/ingredients/"
-    />
-  </section>
+          title="Ingredients"
+          :table-data="meal?.ingredients"
+          :table-headers="tableRowHeader"
+          title-two="List of Ingredients"
+          redirect-link="/ingredients/"
+      />
+    </section>
+  </Transition>
 </template>
 
 <style scoped>
+.meal-view-container-leave-to,
+.meal-view-container-enter-from {
+  opacity: 0;
+}
+
+.meal-view-container-enter-to,
+.meal-view-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
 .meal-view-container {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Footer from "./components/Footer.vue";
 import Navigation from "./components/Navigation.vue";
 import useTheme from "@/composables/useTheme.ts"
 import {onMounted} from "vue";

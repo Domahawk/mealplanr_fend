@@ -85,42 +85,81 @@ onMounted(getIngredients)
 </script>
 
 <template>
-  <hgroup>
-    <h2>Create Meal</h2>
-    <h3>Enter meal details</h3>
-  </hgroup>
-  <section class="meal-form">
-    <div class="form-section-container">
-      <TextInputField label="Meal name" @text-data="(value: string) => mealName = value"/>
-    </div>
-    <div class="form-section-container">
-      <div class="add-ingredient-fields">
-        <SearchSelect
-            :select-options="options"
-            @search="filterIngredients"
-            @addElement="(value: Model): void => {selectedIngredient = value as Ingredient}"
+  <Transition name="meal-form-container" appear>
+    <section class="meal-form-container">
+      <h2>Create Meal</h2>
+      <h3>Enter meal details</h3>
+      <section class="meal-form">
+        <div class="form-section-container">
+          <TextInputField label="Meal name" @text-data="(value: string) => mealName = value"/>
+        </div>
+        <div class="form-section-container">
+          <div class="add-ingredient-fields">
+            <SearchSelect
+                :select-options="options"
+                @search="filterIngredients"
+                @addElement="(value: Model): void => {selectedIngredient = value as Ingredient}"
+            />
+            <NumberInputField label="Grams" :start-data="grams" @data-update="updateGrams"/>
+          </div>
+          <div class="added-ingredients">
+            <p>{{ selectedIngredient?.name }}</p>
+            <AddButton @addElement="addIngredient" />
+          </div>
+        </div>
+      </section>
+      <section class="selected-ingredients">
+        <h3>Selected ingredients</h3>
+        <TransitionGroup name="selected-ingredients__ingredient">
+          <div class="selected-ingredients__ingredient" v-for="(mealIngredient, index) in ingredients" :key="index">
+            <p>{{ mealIngredient.ingredient?.name }} {{ mealIngredient?.grams }}</p>
+            <RemoveButton @remove-element="removeIngredient(index)"/>
+          </div>
+        </TransitionGroup>
+        <SubmitButton
+            :isDisabled="isDisabled"
+            @submit="createMealRequest"
         />
-        <NumberInputField label="Grams" :start-data="grams" @data-update="updateGrams"/>
-      </div>
-      <div class="added-ingredients">
-        <p>{{ selectedIngredient?.name }}</p>
-        <AddButton @addElement="addIngredient" />
-      </div>
-    </div>
-  </section>
-    <section class="selected-ingredients">
-      <h3>Selected ingredients</h3>
-      <div class="selected-ingredients__ingredient" v-for="(mealIngredient, index) in ingredients">
-        <p>{{ mealIngredient.ingredient?.name }} {{ mealIngredient?.grams }}</p>
-        <RemoveButton @remove-element="removeIngredient(index)"/>
-      </div>
-      <SubmitButton
-          :isDisabled="isDisabled"
-          @submit="createMealRequest"
-      />
+      </section>
     </section>
+  </Transition>
 </template>
 <style scoped>
+
+.selected-ingredients__ingredient-leave-to,
+.selected-ingredients__ingredient-enter-from {
+  opacity: 0;
+  transform: translateX(800px);
+
+}
+
+.selected-ingredients__ingredient-leave-active,
+.selected-ingredients__ingredient-enter-active,
+.selected-ingredients__ingredient-enter-to,
+.selected-ingredients__ingredient-leave-from {
+  transition: all 0.2s ease;
+}
+
+.meal-form-container-leave-to,
+.meal-form-container-enter-from {
+  opacity: 0;
+}
+
+.meal-form-container-enter-to,
+.meal-form-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.meal-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+}
+
 .meal-form {
   display: flex;
   flex-direction: column;
@@ -128,7 +167,6 @@ onMounted(getIngredients)
   justify-content: space-between;
   padding: 15px;
   width: 100%;
-  max-width: 800px;
 }
 
 .form-section-container {

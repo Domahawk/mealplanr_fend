@@ -19,18 +19,31 @@ onMounted(getIngredient);
 </script>
 
 <template>
-  <section class="ingredient-view-container">
-    <BackButton/>
-    <div class="ingredient-view-container__info">
-      <h2>Ingredient Name:</h2>
-      <p>{{ ingredient.name }}</p>
-      <h3>Calories per 100g:</h3>
-      <p>{{ ingredient.calories }}</p>
-    </div>
-  </section>
+  <Transition name="ingredient-view-container" appear>
+    <section class="ingredient-view-container">
+      <BackButton/>
+      <div class="ingredient-view-container__info">
+        <h2>Ingredient Name:</h2>
+        <p>{{ ingredient.name }}</p>
+        <h3>Calories per 100g:</h3>
+        <p>{{ ingredient.calories }}</p>
+      </div>
+    </section>
+  </Transition>
 </template>
 
 <style scoped>
+.ingredient-view-container-leave-to,
+.ingredient-view-container-enter-from {
+  opacity: 0;
+}
+
+.ingredient-view-container-enter-to,
+.ingredient-view-container-leave-from {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
 .ingredient-view-container {
   width: 100%;
   max-width: 800px;

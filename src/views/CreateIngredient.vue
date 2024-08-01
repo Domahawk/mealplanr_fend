@@ -25,8 +25,9 @@ const updateCalories = (updateValue: number | string) => {
 
 const createIngredient = async () => {
   await ingredientsClient.createIngredient(ingredientName.value, calories.value);
+  ingredientName.value = '';
+  calories.value = 0;
 }
-
 </script>
 
 <template>
@@ -38,7 +39,11 @@ const createIngredient = async () => {
       </hgroup>
       <form class="ingredient-form">
         <div class="ingredient-form__input-field">
-          <TextInputField label="Ingredient name" @text-data="(value) => ingredientName = value"/>
+          <TextInputField
+              label="Ingredient name"
+              :start-data="ingredientName"
+              @text-data="(value) => ingredientName = value"
+          />
         </div>
         <NumberInputField label="Calories per 100g" :start-data="calories" @data-update="updateCalories"/>
       </form>

@@ -43,7 +43,6 @@ watch(() => props.startData,(value: string) => data.value = value)
          :id="id"
          :name="name"
   />
-  <p>{{data}}</p>
 </template>
 
 <style scoped>

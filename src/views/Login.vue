@@ -3,13 +3,19 @@ import {Ref, ref} from "vue";
 import {useAuthStore} from "@/store/auth.ts";
 import TextInputField from "@/components/FormFields/TextInputField.vue";
 import LoginSvg from "@/components/SvgComponents/LoginSvg.vue";
+import {useNotificationStore} from "@/store/notification.ts";
 
 const email: Ref<string> = ref('');
 const password: Ref<string> = ref('');
 const authStore = useAuthStore();
+const notificationStore = useNotificationStore();
 
 const sendLoginRequest = async () => {
-  await authStore.login(email.value, password.value)
+    let response = await authStore.login(email.value, password.value);
+
+    if (response?.status === 200) {
+      notificationStore.addNotification({type: "success", message: "Successfully logged in"});
+    }
 }
 
 </script>
@@ -43,7 +49,7 @@ const sendLoginRequest = async () => {
           />
         </div>
       </form>
-      <div class="login-section__login" @click.prevent=sendLoginRequest>
+      <div class="login-section__login" @click=sendLoginRequest>
         <LoginSvg />
         <p>Login</p>
       </div>

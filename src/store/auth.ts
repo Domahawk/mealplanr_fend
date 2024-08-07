@@ -3,6 +3,7 @@ import {Ref, ref} from "vue";
 import {extractTokenFromCookie} from "@/mixins/mixins.ts";
 import {userClient} from "@/network/endpoints/userClient.ts";
 import router from "@/router/router.ts";
+import {AxiosResponse} from "axios";
 
 export const useAuthStore = defineStore('auth', () => {
     const token: Ref<string | null> = ref(null);
@@ -18,11 +19,20 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    async function login(email: string, password: string): Promise<void>  {
-        let response = await userClient.login(email, password)
-        document.cookie = `token=${response.data.token};expires=${response.data.expiresAt};SameSite=Lax;path=';`;
-        setToken();
-        await router.push('/');
+    async function login(email: string, password: string): Promise<AxiosResponse<any, any> | undefined>  {
+        try {
+            let response = await userClient.login(email, password)
+
+            if (response.status !== 200) {
+                return;
+            }
+
+            document.cookie = `token=${response.data.token};expires=${response.data.expiresAt};SameSite=Lax;path=';`;
+            setToken();
+            await router.push('/');
+
+            return response;
+        } catch (e) {}
     }
 
     async function logout(): Promise<void> {

@@ -40,8 +40,6 @@ const addIngredient = () => {
   ingredients.value.push(mealIngredient);
   selectedIngredient.value = <Ingredient>{};
   grams.value = 0;
-
-  console.log(grams.value)
 }
 
 const filterIngredients = (search: string) => {

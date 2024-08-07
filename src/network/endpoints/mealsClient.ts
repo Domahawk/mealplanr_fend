@@ -17,7 +17,6 @@ export const mealsClient: MealClient = {
         return axiosClient.axiosClient.get(`/meals/${id}`);
     },
     createMeal: (name: string, ingredients: MealIngredient[]): Promise<any> => {
-        console.log(ingredients)
         let data = {
             name: name,
             ingredients: ingredients.map((ingredient: MealIngredient) => {
@@ -28,7 +27,6 @@ export const mealsClient: MealClient = {
             })
         };
 
-        console.log(data);
         return axiosClient.axiosClient.post('/meals', data);
     }
 };

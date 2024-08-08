@@ -6,6 +6,7 @@ import {TableIngredient} from "@/types/model/ingredient.ts";
 import Table from "@/components/RedirectTable.vue";
 import Pagination from "@/components/Pagination.vue";
 import {Model} from "@/types/model/model.ts";
+import FadeTransition from "@/components/FadeTransition.vue";
 
 const tableIngredients: Ref<TableIngredient[]> = ref([]);
 
@@ -19,7 +20,8 @@ onMounted(getIngredients);
 </script>
 
 <template>
-  <Transition name="ingredients-table-container" appear>
+
+  <FadeTransition>
     <section class="ingredients-table-container">
       <Table title="Ingredient List"
              title-two="List Of Ingredients"
@@ -28,21 +30,10 @@ onMounted(getIngredients);
       />
       <Pagination :client="ingredientsClient" @update-data="(ingredients: Model[]) => tableIngredients = ingredients as TableIngredient[]" />
     </section>
-  </Transition>
+  </FadeTransition>
 </template>
 
 <style scoped>
-.ingredients-table-container-leave-to,
-.ingredients-table-container-enter-from {
-  opacity: 0;
-}
-
-.ingredients-table-container-enter-to,
-.ingredients-table-container-leave-from {
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-
 .ingredients-table-container {
   margin: 10px;
   width: 100%;

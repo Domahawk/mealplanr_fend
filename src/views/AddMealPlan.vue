@@ -44,12 +44,20 @@ function filterMealRequest(search: string): void {
   clearTimeout(timeout);
 
   timeout = setTimeout(async function () {
-    selectOptions.value = await mealPlanStore.getMeals(search)
+    let response = await mealPlanStore.getMeals(search);
+
+    if (response) {
+      selectOptions.value = response;
+    }
   }, 1200);
 }
 
 onMounted(async () => {
-  selectOptions.value = await mealPlanStore.getMeals()
+  let response = await mealPlanStore.getMeals();
+
+  if (response) {
+    selectOptions.value = response;
+  }
 })
 </script>
 

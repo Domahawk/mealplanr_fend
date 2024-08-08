@@ -4,6 +4,7 @@ import {computed, Ref, ref} from "vue";
 import NumberInputField from "@/components/FormFields/NumberInputField.vue";
 import SubmitButton from "@/components/Buttons/SubmitButton.vue";
 import {ingredientsClient} from "@/network/endpoints/ingredientsClient.ts";
+import FadeTransition from "@/components/FadeTransition.vue";
 
 
 const ingredientName: Ref<string> = ref('');
@@ -31,7 +32,7 @@ const createIngredient = async () => {
 </script>
 
 <template>
-  <Transition name="create-ingredient-container" appear>
+  <FadeTransition>
     <section class="create-ingredient-container">
       <hgroup>
         <h2>Add Ingredient</h2>
@@ -49,11 +50,10 @@ const createIngredient = async () => {
       </form>
       <SubmitButton :isDisabled="isDisabled" @submit="createIngredient"/>
     </section>
-  </Transition>
+  </FadeTransition>
 </template>
 
 <style scoped>
-
 .create-ingredient-container {
   display: flex;
   flex-direction: column;
@@ -81,20 +81,4 @@ const createIngredient = async () => {
   align-items: center;
   margin: 10px;
 }
-
-.create-ingredient-container-enter-from {
-  opacity: 0;
-}
-
-.create-ingredient-container-enter-to,
-.create-ingredient-container-leave-from {
-  opacity: 1;
-  transition: all 0.5s ease;
-}
-
-.create-ingredient-container-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
 </style>

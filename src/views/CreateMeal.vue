@@ -13,6 +13,7 @@ import NumberInputField from "@/components/FormFields/NumberInputField.vue";
 import TextInputField from "@/components/FormFields/TextInputField.vue";
 import AddButton from "@/components/Buttons/AddButton.vue";
 import RemoveButton from "@/components/Buttons/RemoveButton.vue";
+import FadeTransition from "@/components/FadeTransition.vue";
 
 const mealName: Ref<string> = ref('');
 const selectedIngredient: Ref<Ingredient> = ref(<Ingredient>{});
@@ -79,7 +80,7 @@ onMounted(getIngredients)
 </script>
 
 <template>
-  <Transition name="meal-form-container" appear>
+  <FadeTransition>
     <section class="meal-form-container">
       <h2>Create Meal</h2>
       <h3>Enter meal details</h3>
@@ -116,7 +117,7 @@ onMounted(getIngredients)
         />
       </section>
     </section>
-  </Transition>
+  </FadeTransition>
 </template>
 <style scoped>
 
@@ -132,17 +133,6 @@ onMounted(getIngredients)
 .selected-ingredients__ingredient-enter-to,
 .selected-ingredients__ingredient-leave-from {
   transition: all 0.2s ease;
-}
-
-.meal-form-container-leave-to,
-.meal-form-container-enter-from {
-  opacity: 0;
-}
-
-.meal-form-container-enter-to,
-.meal-form-container-leave-from {
-  opacity: 1;
-  transition: opacity 0.5s ease;
 }
 
 .meal-form-container {

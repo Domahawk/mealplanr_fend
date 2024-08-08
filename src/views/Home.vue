@@ -7,6 +7,7 @@ import {MealPlans} from "@/types/mealPlans.ts";
 import MealPlanCard from "@/components/MealPlanCard.vue";
 import MealPlanCardSmall from "@/components/MealPlanCardSmall.vue";
 import {MealPlan} from "@/types/model/mealPlan.ts";
+import FadeTransition from "@/components/FadeTransition.vue";
 
 const mealPlans: Ref<MealPlans[] | null> = ref(null);
 const currentDate: Moment = moment();
@@ -44,46 +45,39 @@ onMounted(getMealPlans);
 </script>
 
 <template>
-  <TransitionGroup name="plan-container">
-    <section class="plan-container" v-for="(mealPlan, key) in mealPlans" :key>
-      <MealPlanCard
-          v-if="isMealPlanOpen(mealPlan)"
-          :meal-plans="mealPlan"
-          @remove-meal-from-meal-plan="(value: MealPlan) => removeMealFromMealPlan(value)"
-      />
-      <MealPlanCardSmall
-          v-else
-          :meal-plan="mealPlan"
-          @click="currentlySelectedPlans = mealPlan"
-      />
+  <FadeTransition>
+    <section class="plan-container">
+      <ul class="plan-list" v-for="(mealPlan, key) in mealPlans" :key>
+        <li v-if="isMealPlanOpen(mealPlan)">
+          <MealPlanCard
+              :meal-plans="mealPlan"
+              @remove-meal-from-meal-plan="(value: MealPlan) => removeMealFromMealPlan(value)"
+          />
+        </li>
+        <li v-else>
+          <MealPlanCardSmall
+              :meal-plan="mealPlan"
+              @click="currentlySelectedPlans = mealPlan"
+          />
+        </li>
+      </ul>
     </section>
-  </TransitionGroup>
+  </FadeTransition>
 </template>
 
 <style scoped>
 .plan-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.plan-list {
   margin: 5px;
   padding: 5px;
   width: 100%;
   max-width: 800px;
-}
-
-.plan-container-enter-from {
-  opacity: 0;
-}
-
-.plan-container-enter-to,
-.plan-container-leave-from {
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-
-.plan-container-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
 }
 </style>

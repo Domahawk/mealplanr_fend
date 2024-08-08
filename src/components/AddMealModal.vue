@@ -35,7 +35,11 @@ function filterMealRequest(search: string): void {
   clearTimeout(timeout);
 
   timeout = setTimeout(async function () {
-    selectOptions.value = await mealPlanStore.getMeals(search)
+    let response = await mealPlanStore.getMeals(search);
+
+    if (response) {
+      selectOptions.value = response;
+    }
   }, 1200);
 }
 
@@ -46,7 +50,11 @@ function addMeal(meal: Meal): void {
 }
 
 const getSelectOptions = async (): Promise<void> => {
-  selectOptions.value = await mealPlanStore.getMeals();
+  let response = await mealPlanStore.getMeals();
+
+  if (response) {
+    selectOptions.value = response;
+  }
 }
 
 const removeMeal = (mealIndex: number): void => {
@@ -78,34 +86,34 @@ onMounted(getSelectOptions);
 </script>
 
 <template>
-  <section class="add-meal-modal">
-    <div class="add-meal-modal__container">
-      <CloseButton style="align-self: end; margin: 20px;" @closeElement="emit('close')"/>
-      <div class="add-meal-modal__header">
-        <h2 class="zero-margin-padding">{{ getDayOfWeek(mealPlans?.date) }}</h2>
-        <p class="zero-margin-padding">{{ formatDate(mealPlans?.date) }}</p>
+    <section class="add-meal-modal">
+      <div class="add-meal-modal__container">
+        <CloseButton style="align-self: end; margin: 20px;" @closeElement="emit('close')"/>
+        <div class="add-meal-modal__header">
+          <h2 class="zero-margin-padding">{{ getDayOfWeek(mealPlans?.date) }}</h2>
+          <p class="zero-margin-padding">{{ formatDate(mealPlans?.date) }}</p>
+        </div>
+        <div class="add-meal-modal__form">
+          <SearchSelect
+              @search="filterMealRequest"
+              @addElement="(value: Model): void => addMeal(value as Meal)"
+              :selectOptions="selectOptions"
+              title="Select a meal"
+              placeholder="Search for a meal..."
+          />
+          <strong> {{ calculateTotalCalories() }} </strong>
+          <ul class="add-meal-modal__form__meal-list">
+            <li class="add-meal-modal__form__meal-list__item" v-for="(meal, key) in addedMeals" :key="key">
+              <p>{{ meal.name }} - {{ calculateCalories(meal) }} </p>
+              <RemoveButton @remove-element="removeMeal(key)"/>
+            </li>
+          </ul>
+        </div>
+        <SubmitButton
+            @submit="submitData"
+            :isDisabled="isDisabled"/>
       </div>
-      <div class="add-meal-modal__form">
-        <SearchSelect
-            @search="filterMealRequest"
-            @addElement="(value: Model): void => addMeal(value as Meal)"
-            :selectOptions="selectOptions"
-            title="Select a meal"
-            placeholder="Search for a meal..."
-        />
-        <strong> {{ calculateTotalCalories() }} </strong>
-        <ul class="add-meal-modal__form__meal-list">
-          <li class="add-meal-modal__form__meal-list__item" v-for="(meal, key) in addedMeals" :key="key">
-            <p>{{ meal.name }} - {{ calculateCalories(meal) }} </p>
-            <RemoveButton @remove-element="removeMeal(key)"/>
-          </li>
-        </ul>
-      </div>
-      <SubmitButton
-          @submit="submitData"
-          :isDisabled="isDisabled"/>
-    </div>
-  </section>
+    </section>
 </template>
 
 <style scoped>

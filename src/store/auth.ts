@@ -4,6 +4,7 @@ import {extractTokenFromCookie} from "@/mixins/mixins.ts";
 import {userClient} from "@/network/endpoints/userClient.ts";
 import router from "@/router/router.ts";
 import {AxiosResponse} from "axios";
+import {useNotificationStore} from "@/store/notification.ts";
 
 export const useAuthStore = defineStore('auth', () => {
     const token: Ref<string | null> = ref(null);
@@ -32,7 +33,11 @@ export const useAuthStore = defineStore('auth', () => {
             await router.push('/');
 
             return response;
-        } catch (e) {}
+        } catch (e: any) {
+            const notificationStore = useNotificationStore();
+
+            notificationStore.addNotification({type: "error", message: e.message});
+        }
     }
 
     async function logout(): Promise<void> {

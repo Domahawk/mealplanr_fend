@@ -15,7 +15,7 @@ export const mealPlanClient = {
         return axiosClient.axiosClient.post(`/user-meal-plan`, requestData)
     },
     updateMealPlan: (id: number, data: {}) => {
-        return axiosClient.axiosClient.post(`/user-meal-plan/${id}`, data)
+        return axiosClient.axiosClient.put(`/user-meal-plan/${id}`, data)
     },
     removeMealPlan: (id:number) => {
         return axiosClient.axiosClient.delete(`/user-meal-plan/${id}`)

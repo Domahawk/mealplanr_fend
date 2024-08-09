@@ -6,6 +6,7 @@ import {calculateCalories} from "@/mixins/mixins.ts";
 import RedirectTable from "@/components/RedirectTable.vue";
 import Pagination from "@/components/Pagination.vue";
 import {Model} from "@/types/model/model.ts";
+import FadeTransition from "@/components/FadeTransition.vue";
 
 const tableMeals: Ref<TableMeal[]> = ref([]);
 
@@ -42,7 +43,7 @@ const formatIngredients = (meal: Meal): string => {
 onMounted(getMeals);
 </script>
 <template>
-  <Transition name="meals-table-container" appear>
+  <FadeTransition>
     <section class="meals-table-container">
       <RedirectTable title="Meal List"
                      title-two="List Of Meals"
@@ -56,21 +57,10 @@ onMounted(getMeals);
           @update-data="(meals: Model[]): TableMeal[] => tableMeals = formatMeals(meals as Meal[])"
       />
     </section>
-  </Transition>
+  </FadeTransition>
 </template>
 
 <style scoped>
-.meals-table-container-leave-to,
-.meals-table-container-enter-from {
-  opacity: 0;
-}
-
-.meals-table-container-enter-to,
-.meals-table-container-leave-from {
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-
 .meals-table-container {
   display: flex;
   flex-direction: column;

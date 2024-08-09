@@ -5,11 +5,11 @@ export const userClient = {
     me: () => {
         return axiosClient.axiosClient.get('/me')
     },
-    login: (email: string, password: string) => {
+    login: async (email: string, password: string) => {
         return axiosClient.axiosClient.post('/login', {
             email: email,
             password: password,
-        })
+        });
     },
     logout: () => {
         return axiosClient.axiosClient.post('/logout')

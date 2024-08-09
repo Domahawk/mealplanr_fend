@@ -5,8 +5,6 @@ export default function useTheme() {
     const theme = ref('light');
 
     const toggleTheme = (newTheme: 'light' | 'dark' | 'neon') => {
-        console.log(newTheme);
-
         theme.value = newTheme;
         let htmlElement = document.getElementById('root');
         htmlElement?.setAttribute('color-mode', theme.value);

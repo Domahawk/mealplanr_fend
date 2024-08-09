@@ -8,6 +8,8 @@ import RemoveButton from "@/components/Buttons/RemoveButton.vue";
 import {ref, Ref} from "vue";
 import MarkButton from "@/components/Buttons/MarkButton.vue";
 import AddButton from "@/components/Buttons/AddButton.vue";
+import {useNotificationStore} from "@/store/notification.ts";
+import FadeTransition from "@/components/FadeTransition.vue";
 
 const props = withDefaults(defineProps<{
   mealPlans: MealPlans
@@ -20,6 +22,7 @@ const emits = defineEmits<{
 }>()
 
 const isModalOpen: Ref<boolean> = ref(false);
+const notificationStore = useNotificationStore();
 
 const calculateCurrentCalories = (): { eaten: number, planned: number, remaining: number } => {
   let eatenCalories = 0;
@@ -51,6 +54,7 @@ const markMealAsEaten = async (meal: MealPlan): Promise<void> => {
     return;
   }
 
+  notificationStore.addNotification({type: 'success', message: 'Successfully updated meal plan.'});
   meal.consumed = !meal.consumed;
 }
 
@@ -61,6 +65,7 @@ const removeMealFromPlan = async (meal: MealPlan): Promise<void> => {
     return;
   }
 
+  notificationStore.addNotification({type: 'success', message: 'Successfully updated meal plan.'});
   emits('removeMealFromMealPlan', meal);
 }
 
@@ -75,23 +80,27 @@ const mealConsumedClass = (meal: MealPlan) => {
 </script>
 
 <template>
-  <AddMealModal
-      v-if="isModalOpen"
-      :meal-plans="mealPlans"
-      @close="isModalOpen = false"
-  />
+  <FadeTransition>
+    <div v-if="isModalOpen">
+      <AddMealModal
+          :meal-plans="mealPlans"
+          @close="isModalOpen = false"
+      />
+    </div>
+  </FadeTransition>
   <section class="meal-plan-card">
     <div class="meal-plan-card__header">
       <div class="meal-plan-card__header-day">
         <h2 class="zero-margin-padding">{{ getDayOfWeek(mealPlans?.date) }}</h2>
         <p class="zero-margin-padding">{{ formatDate(mealPlans?.date) }}</p>
       </div>
-      <AddButton @addElement="isModalOpen = true" />
+      <AddButton @addElement="isModalOpen = true"/>
     </div>
     <hr class="neon-glow">
     <div class="meal-plan-card__body">
       <div class="meal-plan-card__body-info">
-        <div v-for="(value, key) in calculateCurrentCalories()" :key="key" class="meal-plan-card__body-info__element neon-glow">
+        <div v-for="(value, key) in calculateCurrentCalories()" :key="key"
+             class="meal-plan-card__body-info__element neon-glow">
           <p class="zero-margin-padding">{{ key.toUpperCase() }}</p>
           <p class="zero-margin-padding">{{ value }}</p>
         </div>
@@ -104,8 +113,8 @@ const mealConsumedClass = (meal: MealPlan) => {
             <p class="zero-margin-padding"> {{ calculateCalories(meal.meal) }} </p>
           </div>
           <div class="button-container">
-            <MarkButton @markElement="markMealAsEaten(meal)" />
-            <RemoveButton @remove-element="removeMealFromPlan(meal)" />
+            <MarkButton @markElement="markMealAsEaten(meal)"/>
+            <RemoveButton @remove-element="removeMealFromPlan(meal)"/>
           </div>
         </div>
       </div>
@@ -114,9 +123,6 @@ const mealConsumedClass = (meal: MealPlan) => {
 </template>
 
 <style scoped>
-
-
-
 .meal-plan-card {
   display: flex;
   flex-direction: column;
@@ -204,10 +210,10 @@ const mealConsumedClass = (meal: MealPlan) => {
 
 hr {
   border: 0;
-  clear:both;
-  display:block;
+  clear: both;
+  display: block;
   width: 96%;
-  background-color:var(--border-color);
+  background-color: var(--border-color);
   height: 1px;
 }
 </style>

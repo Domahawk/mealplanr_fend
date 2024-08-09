@@ -14,7 +14,6 @@ const authStore = useAuthStore();
 const isMenuOpen = ref(false);
 
 const toggleMenu = () => {
-  console.log(isMenuOpen.value);
   isMenuOpen.value = !isMenuOpen.value;
 }
 </script>

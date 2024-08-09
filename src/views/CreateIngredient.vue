@@ -4,10 +4,12 @@ import {computed, Ref, ref} from "vue";
 import NumberInputField from "@/components/FormFields/NumberInputField.vue";
 import SubmitButton from "@/components/Buttons/SubmitButton.vue";
 import {ingredientsClient} from "@/network/endpoints/ingredientsClient.ts";
-
+import FadeTransition from "@/components/FadeTransition.vue";
+import {useNotificationStore} from "@/store/notification.ts";
 
 const ingredientName: Ref<string> = ref('');
 const calories: Ref<number> = ref(0);
+const notificationStore = useNotificationStore();
 
 const isDisabled = computed(() => {
   return ingredientName.value === '' || calories.value === 0
@@ -24,14 +26,18 @@ const updateCalories = (updateValue: number | string) => {
 }
 
 const createIngredient = async () => {
-  await ingredientsClient.createIngredient(ingredientName.value, calories.value);
-  ingredientName.value = '';
-  calories.value = 0;
+  let response = await ingredientsClient.createIngredient(ingredientName.value, calories.value);
+
+  if ([200, 201].includes(response.status)) {
+    notificationStore.addNotification({type: "success", message: "Ingredient successfully created!"});
+    ingredientName.value = '';
+    calories.value = 0;
+  }
 }
 </script>
 
 <template>
-  <Transition name="create-ingredient-container" appear>
+  <FadeTransition>
     <section class="create-ingredient-container">
       <hgroup>
         <h2>Add Ingredient</h2>
@@ -49,11 +55,10 @@ const createIngredient = async () => {
       </form>
       <SubmitButton :isDisabled="isDisabled" @submit="createIngredient"/>
     </section>
-  </Transition>
+  </FadeTransition>
 </template>
 
 <style scoped>
-
 .create-ingredient-container {
   display: flex;
   flex-direction: column;
@@ -81,20 +86,4 @@ const createIngredient = async () => {
   align-items: center;
   margin: 10px;
 }
-
-.create-ingredient-container-enter-from {
-  opacity: 0;
-}
-
-.create-ingredient-container-enter-to,
-.create-ingredient-container-leave-from {
-  opacity: 1;
-  transition: all 0.5s ease;
-}
-
-.create-ingredient-container-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
 </style>

@@ -1,6 +1,7 @@
 import axios, {AxiosInstance} from 'axios';
 import {useAuthStore} from "@/store/auth.ts";
 import vueRouter from "@/router/router.ts";
+import {useNotificationStore} from "@/store/notification.ts";
 
 const axiosClient: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -18,32 +19,19 @@ axiosClient.interceptors.response.use(
         const authStore = useAuthStore();
         const {response} = error;
         const router = vueRouter;
+        const notificationStore = useNotificationStore();
 
         if (response) {
-            switch (response.status) {
-                case 401:
-                    // Unauthorized, redirect to login page
-                    authStore.deleteToken();
-                    router.push('/login')
-                    break;
-                case 403:
-                    // Forbidden
-                    console.error('Forbidden:', response.data.message);
-                    break;
-                case 404:
-                    // Not Found
-                    console.error('Not Found:', response.data.message);
-                    break;
-                case 500:
-                    // Internal Server Error
-                    console.error('Server Error:', response.data.message);
-                    break;
-                default:
-                    // Handle other status codes
-                    console.error('Error:', response.data.message);
+            if (response.status === 401) {
+                authStore.deleteToken();
+                router.push('/login')
             }
+
+            notificationStore.addNotification({type: "error", message: error.response.data.message});
+
         } else if (error.request) {
             // The request was made but no response was received
+            notificationStore.addNotification({type: "error", message: error.response.data.message});
             console.error('Network error:', error.message);
         } else {
             // Something happened in setting up the request that triggered an Error

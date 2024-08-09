@@ -13,6 +13,9 @@ import NumberInputField from "@/components/FormFields/NumberInputField.vue";
 import TextInputField from "@/components/FormFields/TextInputField.vue";
 import AddButton from "@/components/Buttons/AddButton.vue";
 import RemoveButton from "@/components/Buttons/RemoveButton.vue";
+import FadeTransition from "@/components/FadeTransition.vue";
+import SlideGroupTransition from "@/components/SlideGroupTransition.vue";
+import {useNotificationStore} from "@/store/notification.ts";
 
 const mealName: Ref<string> = ref('');
 const selectedIngredient: Ref<Ingredient> = ref(<Ingredient>{});
@@ -20,6 +23,7 @@ const ingredients: Ref<MealIngredient[]> = ref([]);
 const grams: Ref<number> = ref(0);
 const options: Ref<Ingredient[]> = ref([]);
 const iStore = useIngredientsStore();
+const notificationStroe = useNotificationStore();
 
 let timeout: ReturnType<typeof setTimeout> = setTimeout(() => '', 0);
 
@@ -40,15 +44,20 @@ const addIngredient = () => {
   ingredients.value.push(mealIngredient);
   selectedIngredient.value = <Ingredient>{};
   grams.value = 0;
-
-  console.log(grams.value)
 }
 
 const filterIngredients = (search: string) => {
   clearTimeout(timeout);
 
   timeout = setTimeout(async function () {
-    options.value = await iStore.getIngredients(search);
+    try {
+      let response = await iStore.getIngredients(search);
+
+      if (response !== undefined) {
+        options.value = response
+      }
+    } catch (error) {}
+
   }, 1200);
 }
 
@@ -67,27 +76,36 @@ const updateGrams = (updateValue: number | string) => {
 }
 
 const createMealRequest = async () => {
-  await mealsClient.createMeal(mealName.value, ingredients.value)
-  location.reload()
+  let response = await mealsClient.createMeal(mealName.value, ingredients.value)
+
+  if ([201, 200].includes(response.status)) {
+    notificationStroe.addNotification({type: "success", message: "Meal successfully created!"});
+
+    mealName.value = '';
+    ingredients.value = [];
+    grams.value = 0;
+  }
 }
 
 const getIngredients = async () => {
-  let response = await ingredientsClient.get();
+  try {
+    let response = await ingredientsClient.get();
 
-  options.value = response.data.data;
+    options.value = response.data.data;
+  } catch (error) {}
 }
 
 onMounted(getIngredients)
 </script>
 
 <template>
-  <Transition name="meal-form-container" appear>
+  <FadeTransition>
     <section class="meal-form-container">
       <h2>Create Meal</h2>
       <h3>Enter meal details</h3>
       <section class="meal-form">
         <div class="form-section-container">
-          <TextInputField label="Meal name" @text-data="(value: string) => mealName = value"/>
+          <TextInputField label="Meal name" :start-data="mealName" @text-data="(value: string) => mealName = value"/>
         </div>
         <div class="form-section-container">
           <div class="add-ingredient-fields">
@@ -106,47 +124,21 @@ onMounted(getIngredients)
       </section>
       <section class="selected-ingredients">
         <h3>Selected ingredients</h3>
-        <TransitionGroup name="selected-ingredients__ingredient">
+        <SlideGroupTransition>
           <div class="selected-ingredients__ingredient" v-for="(mealIngredient, index) in ingredients" :key="index">
             <p>{{ mealIngredient.ingredient?.name }} {{ mealIngredient?.grams }}</p>
             <RemoveButton @remove-element="removeIngredient(index)"/>
           </div>
-        </TransitionGroup>
+        </SlideGroupTransition>
         <SubmitButton
             :isDisabled="isDisabled"
             @submit="createMealRequest"
         />
       </section>
     </section>
-  </Transition>
+  </FadeTransition>
 </template>
 <style scoped>
-
-.selected-ingredients__ingredient-leave-to,
-.selected-ingredients__ingredient-enter-from {
-  opacity: 0;
-  transform: translateX(800px);
-
-}
-
-.selected-ingredients__ingredient-leave-active,
-.selected-ingredients__ingredient-enter-active,
-.selected-ingredients__ingredient-enter-to,
-.selected-ingredients__ingredient-leave-from {
-  transition: all 0.2s ease;
-}
-
-.meal-form-container-leave-to,
-.meal-form-container-enter-from {
-  opacity: 0;
-}
-
-.meal-form-container-enter-to,
-.meal-form-container-leave-from {
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-
 .meal-form-container {
   display: flex;
   flex-direction: column;

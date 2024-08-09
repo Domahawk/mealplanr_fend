@@ -10,7 +10,7 @@ export const useNotificationStore = defineStore('notification', () => {
 
         setTimeout(() => {
            removeNotification(notification);
-        }, 3000);
+        }, 1300);
     }
 
     function removeNotification(notification: Notification): void {

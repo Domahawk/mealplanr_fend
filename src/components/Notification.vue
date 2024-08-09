@@ -13,7 +13,7 @@ const notifications: Ref<Notification[]> = ref(notificationStore.notifications);
 <template>
     <div class="notification-container">
       <SlideGroupTransition>
-        <div v-for="(notification, index) in notifications" :key="index" class="notification" :class="notification.type">
+        <div v-for="(notification, index) in notifications" :key="index" class="notification neon-glow" :class="notification.type">
           {{ notification.message }}
         </div>
       </SlideGroupTransition>
@@ -24,19 +24,26 @@ const notifications: Ref<Notification[]> = ref(notificationStore.notifications);
 .notification-container {
   position: fixed;
   top: 10px;
-  right: 10px;
-  width: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
 }
 .notification {
-  background-color: #444;
-  color: white;
+  background-color: var(--container-bg);
+  color: var(--text-color);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .notification.success {
-  background-color: var(--safe-color);
+  border: var(--safe-color) 2px solid;
 }
 .notification.error {
   background-color: var(--danger-color);

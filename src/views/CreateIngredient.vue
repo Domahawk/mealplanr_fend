@@ -5,10 +5,11 @@ import NumberInputField from "@/components/FormFields/NumberInputField.vue";
 import SubmitButton from "@/components/Buttons/SubmitButton.vue";
 import {ingredientsClient} from "@/network/endpoints/ingredientsClient.ts";
 import FadeTransition from "@/components/FadeTransition.vue";
-
+import {useNotificationStore} from "@/store/notification.ts";
 
 const ingredientName: Ref<string> = ref('');
 const calories: Ref<number> = ref(0);
+const notificationStore = useNotificationStore();
 
 const isDisabled = computed(() => {
   return ingredientName.value === '' || calories.value === 0
@@ -25,9 +26,13 @@ const updateCalories = (updateValue: number | string) => {
 }
 
 const createIngredient = async () => {
-  await ingredientsClient.createIngredient(ingredientName.value, calories.value);
-  ingredientName.value = '';
-  calories.value = 0;
+  let response = await ingredientsClient.createIngredient(ingredientName.value, calories.value);
+
+  if ([200, 201].includes(response.status)) {
+    notificationStore.addNotification({type: "success", message: "Ingredient successfully created!"});
+    ingredientName.value = '';
+    calories.value = 0;
+  }
 }
 </script>
 

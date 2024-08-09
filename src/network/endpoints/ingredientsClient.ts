@@ -1,9 +1,8 @@
 import axiosClient from "@/network/apiClient.ts";
 import {Ingredient} from "@/types/model/ingredient.ts";
 
-
 export const ingredientsClient = {
-    get: (searchQuery?: { key: string, value: string | number }) => {
+    get: async (searchQuery?: { key: string, value: string | number }) => {
         let path: string = '/ingredients';
 
         if (searchQuery !== undefined) {

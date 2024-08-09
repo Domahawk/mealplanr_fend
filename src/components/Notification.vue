@@ -3,6 +3,7 @@
 import {useNotificationStore} from "@/store/notification.ts";
 import {Ref, ref} from "vue";
 import {Notification} from "@/types/network/notification.ts";
+import SlideGroupTransition from "@/components/SlideGroupTransition.vue";
 
 const notificationStore = useNotificationStore();
 const notifications: Ref<Notification[]> = ref(notificationStore.notifications);
@@ -11,26 +12,15 @@ const notifications: Ref<Notification[]> = ref(notificationStore.notifications);
 
 <template>
     <div class="notification-container">
-      <TransitionGroup name="notification">
+      <SlideGroupTransition>
         <div v-for="(notification, index) in notifications" :key="index" class="notification" :class="notification.type">
           {{ notification.message }}
         </div>
-      </TransitionGroup>
+      </SlideGroupTransition>
     </div>
 </template>
 
 <style scoped>
-.notification-leave-active,
-.notification-enter-active {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.notification-enter-to,
-.notification-leave-from {
-  opacity: 1;
-}
-
 .notification-container {
   position: fixed;
   top: 10px;

@@ -22,7 +22,6 @@ const emits = defineEmits<{
 }>()
 
 const isModalOpen: Ref<boolean> = ref(false);
-const isOpen: Ref<boolean> = ref(false);
 const notificationStore = useNotificationStore();
 
 const calculateCurrentCalories = (): { eaten: number, planned: number, remaining: number } => {
